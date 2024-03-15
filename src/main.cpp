@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../headers/ptrClass.h"
 
-int main() 
+int main()
 {
     
     return 0;
