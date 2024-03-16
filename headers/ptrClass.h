@@ -9,12 +9,12 @@ public:
     {
         if (IsDeleted)
         {
-            throw std::runtime_error("Cannot get value of deleted pointer");
+            std::cout << "Cannot get value of deleted pointer" << std::endl;
             return nullptr;
         }
         else if (ptr == nullptr)
         {
-            throw std::runtime_error("Cannot get value of null pointer");
+            std::cout << "Cannot get value of null pointer" << std::endl;
             return nullptr;
         }
         else 
@@ -44,16 +44,14 @@ public:
         {
             if (IsCopy && parentPtr.ptr != nullptr)
             {    
-                if (parentPtr.count > 1)
+                if (parentPtr.count > 0)
                 {                  
                     IsDeleted = true;
-                    std::cout << "1";
                     parentPtr.decreaseCount();
                 }
-                else if (parentPtr.count == 1)
+                else if (parentPtr.count == 0)
                 {
                     IsDeleted = true;
-                    std::cout << "2";
                     delete ptr;
                     parentPtr.decreaseCount();
                 }
@@ -62,14 +60,12 @@ public:
             {
                 if (count > 1)
                 {
-                    std::cout << "3";
                     IsDeleted = true;
                     decreaseCount();
                 }
                 else if (count == 1)
                 {
                     IsDeleted = true;
-                    std::cout << "4";
                     decreaseCount();
                     delete ptr;
                 }
@@ -110,12 +106,10 @@ public:
         ptrInfo.setCopyVar(true);
         ptrInfo.setDeletedVar(false);
         parentPtr.increaseCount();
-        std::cout << parentPtr.getCount() << std::endl;
-        std::cout << ptrInfo.getCount() << std::endl;
     }
     ~ptrClass()
     {
-        ptrInfo.del(ptrInfo);
+        ptrInfo.del(parentPtr);
     }
     T &operator*() 
     {
@@ -123,8 +117,7 @@ public:
     }
     void deletePtr()
     {
-        std::cout << ptrInfo.getCount() << std::endl;
-        ptrInfo.del(ptrInfo);
+        ptrInfo.del(parentPtr);
     }
     int getCount()
     {
