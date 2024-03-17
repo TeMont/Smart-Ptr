@@ -38,7 +38,7 @@ public:
     {
         --count;
     }
-    void del(ptrStruct<T> parentPtr)
+    void del(ptrStruct<T> &parentPtr)
     {
         if (!IsDeleted && ptr != nullptr)
         {
@@ -58,6 +58,7 @@ public:
             }
             else if (!IsCopy)
             {
+                    std::cout << count;
                 if (count > 1)
                 {
                     IsDeleted = true;
@@ -84,6 +85,14 @@ public:
     {
         count = val;
     }
+    bool getCopyVar()
+    {
+        return IsCopy;
+    }
+    bool getDeletedVar()
+    {
+        return IsDeleted;
+    }
 protected:
     bool IsCopy = false;
     bool IsDeleted = false;
@@ -109,7 +118,7 @@ public:
     }
     ~ptrClass()
     {
-        ptrInfo.del(parentPtr);
+        // ptrInfo.del(parentPtr);
     }
     T &operator*() 
     {
@@ -122,6 +131,31 @@ public:
     int getCount()
     {
         return ptrInfo.getCount();
+    }
+    void swap(ptrClass<T> &ptrToSwap)
+    {
+        ptrClass<T> temp = ptrToSwap;
+
+        ptrToSwap.ptrInfo = ptrInfo;
+        ptrToSwap.parentPtr = parentPtr;
+
+        ptrInfo = temp.ptrInfo;
+        parentPtr = temp.parentPtr;
+
+
+        temp.deletePtr();
+    }
+    bool isUnique()
+    {
+        if (!ptrInfo.getCopyVar() || parentPtr.getCount() == 0)
+        {
+            return true;
+        }
+        else 
+        {
+            std::cout << "C: " << parentPtr.getCount() << '\t';
+            return false;
+        }
     }
 
 private:
